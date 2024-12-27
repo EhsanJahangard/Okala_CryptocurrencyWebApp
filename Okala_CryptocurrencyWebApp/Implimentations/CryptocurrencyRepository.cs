@@ -7,7 +7,7 @@ using Okala_CryptocurrencyWebApp.Dtos.ResponseDto;
 using Okala_CryptocurrencyWebApp.Models;
 using Serilog;
 using System.Net.Http.Headers;
-using System.Text.Json; 
+using System.Text.Json;
 #endregion
 
 namespace Okala_CryptocurrencyWebApp.Services;
@@ -60,6 +60,8 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
                 var result = JsonSerializer.
                                             Deserialize<GetAllCryptoStatusResponseDto>(jsonResult)
                                                                         ?? new GetAllCryptoStatusResponseDto();
+
+                result.rates.Remove(request.CryptoType);
                 return result;
             }
             else
@@ -95,6 +97,6 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
             throw new Exception("ERROR INTERNAL SERVER...");
         }
 
-    } 
+    }
     #endregion
 }
