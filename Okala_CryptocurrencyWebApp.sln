@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Okala_CryptocurrencyWebApp", "Okala_CryptocurrencyWebApp\Okala_CryptocurrencyWebApp.csproj", "{0D12D95D-80BE-4662-96C4-9AB3F07456FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F84660F-6B5C-4869-82D6-D39BAED96126}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{25D61BD1-9538-490E-B2EC-5C0E2535F780}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptocurrencyTestProject", "CryptocurrencyTestProject\CryptocurrencyTestProject.csproj", "{C10B2838-9BDC-45E5-9848-08357366465B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D12D95D-80BE-4662-96C4-9AB3F07456FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D12D95D-80BE-4662-96C4-9AB3F07456FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D12D95D-80BE-4662-96C4-9AB3F07456FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D12D95D-80BE-4662-96C4-9AB3F07456FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C10B2838-9BDC-45E5-9848-08357366465B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C10B2838-9BDC-45E5-9848-08357366465B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C10B2838-9BDC-45E5-9848-08357366465B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C10B2838-9BDC-45E5-9848-08357366465B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0D12D95D-80BE-4662-96C4-9AB3F07456FE} = {5F84660F-6B5C-4869-82D6-D39BAED96126}
+		{C10B2838-9BDC-45E5-9848-08357366465B} = {25D61BD1-9538-490E-B2EC-5C0E2535F780}
+	EndGlobalSection
+EndGlobal
