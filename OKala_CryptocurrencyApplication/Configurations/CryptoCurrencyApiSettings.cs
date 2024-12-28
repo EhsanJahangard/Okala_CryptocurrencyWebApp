@@ -1,4 +1,4 @@
-﻿namespace Okala_CryptocurrencyWebApp.Configurations;
+﻿namespace OKala_CryptocurrencyApplication.Configurations;
 
 public class CryptoCurrencyApiSettings
 {

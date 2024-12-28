@@ -1,4 +1,4 @@
-﻿namespace Okala_CryptocurrencyWebApp.Models;
+﻿namespace OKala_CryptocurrencyDomain.Models;
 
 
 public class ApiError

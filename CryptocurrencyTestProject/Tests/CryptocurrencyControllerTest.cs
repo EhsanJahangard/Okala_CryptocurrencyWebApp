@@ -1,8 +1,8 @@
 ﻿using Moq;
-using Okala_CryptocurrencyWebApp.Contracts;
+using OKala_CryptocurrencyApplication.Contracts;
 using Okala_CryptocurrencyWebApp.Controllers;
-using Okala_CryptocurrencyWebApp.Dtos.RequestDto;
-using Okala_CryptocurrencyWebApp.Dtos.ResponseDto;
+using OKala_CryptocurrencyDomain.Dtos.RequestDto;
+using OKala_CryptocurrencyDomain.Dtos.ResponseDto;
 
 namespace CryptocurrencyTestProject.Tests;
 

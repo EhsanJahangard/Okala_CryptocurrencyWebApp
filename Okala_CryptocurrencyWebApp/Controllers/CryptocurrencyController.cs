@@ -1,9 +1,9 @@
 ﻿#region using
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using Okala_CryptocurrencyWebApp.Contracts;
-using Okala_CryptocurrencyWebApp.Dtos.RequestDto;
-using Okala_CryptocurrencyWebApp.Dtos.ResponseDto;
+using OKala_CryptocurrencyApplication.Contracts;
+using OKala_CryptocurrencyDomain.Dtos.RequestDto;
+using OKala_CryptocurrencyDomain.Dtos.ResponseDto;
 using Serilog; 
 #endregion
 namespace Okala_CryptocurrencyWebApp.Controllers;
@@ -30,15 +30,9 @@ public class CryptocurrencyController : ControllerBase
     [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
     [Tags("GetCryptoCurrent - وضعیت اخیر رمز ارزها")]
     [EndpointDescription("USD,EUR,BRL,GBP,AUD وضعیت اخیر رمز ارزها")]
-    //[OutputCache(Duration = 60)] // کش کردن به مدت 60 ثانیه
-    [OutputCache(Duration = 60, VaryByQueryKeys = new[] { "cryptoType" })] // کش بر اساس مقدار "cryptoType"
+    [OutputCache(Duration = 30, VaryByQueryKeys = new[] { "cryptoType" })] // کش بر اساس مقدار "cryptoType"
     public async Task<BaseResponseDto<GetAllCryptoStatusResponseDto>> GetCryptoCurrent([FromQuery] CryptoCurrentRequestDto request)
     {
-
-        if (request == null)
-        {
-            throw new ArgumentNullException("Value cannot be null.");
-        }
 
         BaseResponseDto<GetAllCryptoStatusResponseDto> response = new BaseResponseDto<GetAllCryptoStatusResponseDto>();
         try
@@ -69,6 +63,4 @@ public class CryptocurrencyController : ControllerBase
 
 
     #endregion
-
-
 }

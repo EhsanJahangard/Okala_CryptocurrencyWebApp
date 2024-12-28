@@ -1,23 +1,20 @@
 ﻿using Microsoft.OpenApi.Models;
-using Okala_CryptocurrencyWebApp.Configurations;
-using Okala_CryptocurrencyWebApp.Contracts;
+using OKala_CryptocurrencyApplication;
 using Okala_CryptocurrencyWebApp.Midlewares;
-using Okala_CryptocurrencyWebApp.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-// اضافه کردن تنظیمات
-builder.Services.Configure<CryptoCurrencyApiSettings>(builder.Configuration.GetSection("ApiSettings"));
-
-// اضافه کردن HttpClient
-builder.Services.AddHttpClient<ICryptocurrencyRepository, CryptocurrencyRepository>();
+//Application Layer
+builder.Services.ConfigureApplicationServices(builder.Configuration);
 
 // اضافه کردن Controllerها
 builder.Services.AddControllers();
 
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo()

@@ -1,6 +1,6 @@
 ﻿using System.Net.NetworkInformation;
 
-namespace Okala_CryptocurrencyWebApp.Utilities;
+namespace OKala_CryptocurrencyInfrastructure.Utilities;
 
 public static class PingNetwork
 {

@@ -1,23 +1,19 @@
 ﻿#region using
 using Microsoft.Extensions.Options;
-using Okala_CryptocurrencyWebApp.Configurations;
-using Okala_CryptocurrencyWebApp.Contracts;
-using Okala_CryptocurrencyWebApp.Dtos.RequestDto;
-using Okala_CryptocurrencyWebApp.Dtos.ResponseDto;
-using Okala_CryptocurrencyWebApp.Models;
-using Okala_CryptocurrencyWebApp.Utilities;
+using OKala_CryptocurrencyApplication.Configurations;
+using OKala_CryptocurrencyApplication.Contracts;
+using OKala_CryptocurrencyDomain.Dtos.RequestDto;
+using OKala_CryptocurrencyDomain.Dtos.ResponseDto;
+using OKala_CryptocurrencyDomain.Models;
+using OKala_CryptocurrencyInfrastructure.Utilities;
 using Polly;
-using Polly.Extensions.Http;
 using Polly.Retry;
 using Serilog;
-using System;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 #endregion
 
-namespace Okala_CryptocurrencyWebApp.Services;
+namespace OKala_CryptocurrencyApplication.Services;
 
 public class CryptocurrencyRepository : ICryptocurrencyRepository
 {

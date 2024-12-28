@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Okala_CryptocurrencyWebApp.Dtos.ResponseDto;
+namespace OKala_CryptocurrencyDomain.Dtos.ResponseDto;
 
 public record BaseResponseDto<T>
 {

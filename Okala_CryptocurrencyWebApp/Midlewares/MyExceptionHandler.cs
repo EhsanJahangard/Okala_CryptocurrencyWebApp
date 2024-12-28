@@ -1,4 +1,4 @@
-﻿using Okala_CryptocurrencyWebApp.Dtos.ResponseDto;
+﻿using OKala_CryptocurrencyDomain.Dtos.ResponseDto;
 using System.Net;
 using System.Text.Json;
 
