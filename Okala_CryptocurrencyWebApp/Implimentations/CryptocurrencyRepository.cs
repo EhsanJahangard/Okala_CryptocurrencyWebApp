@@ -5,7 +5,14 @@ using Okala_CryptocurrencyWebApp.Contracts;
 using Okala_CryptocurrencyWebApp.Dtos.RequestDto;
 using Okala_CryptocurrencyWebApp.Dtos.ResponseDto;
 using Okala_CryptocurrencyWebApp.Models;
+using Okala_CryptocurrencyWebApp.Utilities;
+using Polly;
+using Polly.Extensions.Http;
+using Polly.Retry;
 using Serilog;
+using System;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 #endregion
@@ -31,6 +38,8 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
         var url = $"{_baseUrl}";
 
         _httpClient = httpClient;
+
+        _httpClient.Timeout = TimeSpan.FromSeconds(15);
         _httpClient.BaseAddress = new Uri(url);
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -47,12 +56,39 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
     /// <returns>GetAllCryptoStatusResponseDto</returns>
     public async Task<GetAllCryptoStatusResponseDto> GetLastCryptoStatus(CryptoCurrentRequestDto request)
     {
+
+        #region Check Network Interface
+        var checkNetwork = CheckNetWorkInterface();
+        if (checkNetwork.success == false)
+        {
+            return checkNetwork;
+        }
+
+        #endregion
+
+
         string units = "USD,EUR,BRL,GBP,AUD";
         var path = $"{_endpoint}?access_key={_accessToken}&base={request.CryptoType}&symbols={units}";
         HttpResponseMessage? response = null;
         try
         {
-            response = await _httpClient.GetAsync(path);
+
+            // ایجاد سیاست Retry
+            AsyncRetryPolicy<HttpResponseMessage> retryPolicy = Policy
+            .Handle<HttpRequestException>() // هندل کردن HttpRequestException
+            .OrResult<HttpResponseMessage>(response =>
+                !response.IsSuccessStatusCode) // هندل کردن پاسخ‌های ناموفق
+            .WaitAndRetryAsync(6, retryAttempt =>
+                TimeSpan.FromSeconds(10), // تأخیر نمایی
+                onRetry: (outcome, timeSpan, retryCount, context) =>
+                {
+                    Console.WriteLine($"Retry For Get Info ---> {retryCount}: {outcome.Exception?.Message ?? outcome.Result.StatusCode.ToString()}");
+                    Log.Error("Error :" + $"Retry For Get Info ---> {retryCount}: {outcome.Exception?.Message ?? outcome.Result.StatusCode.ToString()}");
+                });
+
+
+            response = await retryPolicy.ExecuteAsync(() => _httpClient.GetAsync(path));
+
             if (response.IsSuccessStatusCode)
             {
                 //Handel Suitable Data
@@ -88,6 +124,14 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
 
             }
         }
+        catch (System.Net.Http.HttpRequestException exRequest)
+        {
+            //log in logger
+            // ذخیره اطلاعات در لاگ‌ها
+            Log.Error("Error :" + exRequest.Message);
+            //throw Exception
+            throw new Exception("ERROR Request...");
+        }
         catch (Exception ex)
         {
             //log in logger
@@ -99,4 +143,32 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
 
     }
     #endregion
+
+    private GetAllCryptoStatusResponseDto CheckNetWorkInterface()
+    {
+        var result = new GetAllCryptoStatusResponseDto();
+        result.success = true;
+        result.date = DateTime.Now.Date;
+        result.@base = "";
+        result.timestamp = 0;
+        if (!PingNetwork.IsInternetAvailable())
+        {
+            result.error = new ApiError("-1", "No Internet Access");
+            result.success = false;
+
+            //log in logger
+            // ذخیره اطلاعات در لاگ‌ها
+            Log.Error("Error :" + "No Internet Access");
+        }
+        if (!PingNetwork.IsExchangeratesapiAvailable())
+        {
+            result.error = new ApiError("-1", "Exchangeratesapi Not Available");
+            result.success = false;
+
+            //log in logger
+            // ذخیره اطلاعات در لاگ‌ها
+            Log.Error("Error :" + "Exchangeratesapi Not Available");
+        }
+        return result;
+    }
 }
