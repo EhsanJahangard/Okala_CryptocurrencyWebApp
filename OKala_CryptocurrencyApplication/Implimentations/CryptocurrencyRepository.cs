@@ -70,12 +70,9 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
         {
 
             // ایجاد سیاست Retry
-            AsyncRetryPolicy<HttpResponseMessage> retryPolicy = Policy
-            .Handle<HttpRequestException>() // هندل کردن HttpRequestException
-            .OrResult<HttpResponseMessage>(response =>
-                !response.IsSuccessStatusCode) // هندل کردن پاسخ‌های ناموفق
-            .WaitAndRetryAsync(6, retryAttempt =>
-                TimeSpan.FromSeconds(10), // تأخیر نمایی
+            AsyncRetryPolicy<HttpResponseMessage> retryPolicy = Policy.Handle<HttpRequestException>() // هندل کردن HttpRequestException
+            .OrResult<HttpResponseMessage>(response => !response.IsSuccessStatusCode) // هندل کردن پاسخ‌های ناموفق
+            .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(10), // تأخیر نمایی
                 onRetry: (outcome, timeSpan, retryCount, context) =>
                 {
                     Console.WriteLine($"Retry For Get Info ---> {retryCount}: {outcome.Exception?.Message ?? outcome.Result.StatusCode.ToString()}");
@@ -111,7 +108,7 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
                 result.timestamp = 0;
 
                 //log in logger
-                // ذخیره اطلاعات در لاگ‌ها
+                
                 Log.Error("Error :" + errorResult.error);
                 return result;
 
@@ -123,7 +120,7 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
         catch (System.Net.Http.HttpRequestException exRequest)
         {
             //log in logger
-            // ذخیره اطلاعات در لاگ‌ها
+            
             Log.Error("Error :" + exRequest.Message);
             //throw Exception
             throw new Exception("ERROR Request...");
@@ -131,7 +128,6 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
         catch (Exception ex)
         {
             //log in logger
-            // ذخیره اطلاعات در لاگ‌ها
             Log.Error("Error :" + ex.Message);
             //throw Exception
             throw new Exception("ERROR INTERNAL SERVER...");
@@ -139,6 +135,8 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
 
     }
     #endregion
+
+    #region private_Methods
 
     private GetAllCryptoStatusResponseDto CheckNetWorkInterface()
     {
@@ -153,7 +151,6 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
             result.success = false;
 
             //log in logger
-            // ذخیره اطلاعات در لاگ‌ها
             Log.Error("Error :" + "No Internet Access");
         }
         if (!PingNetwork.IsExchangeratesapiAvailable())
@@ -162,9 +159,9 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
             result.success = false;
 
             //log in logger
-            // ذخیره اطلاعات در لاگ‌ها
             Log.Error("Error :" + "Exchangeratesapi Not Available");
         }
         return result;
-    }
+    } 
+    #endregion
 }
